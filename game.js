@@ -1,19 +1,19 @@
 function setup() {
-  createCanvas(700, 600);
+  createCanvas(600, 500);
 }
 
-// let velocityY = 100;
-// let acceleration = 1;
-
-// // let speed = 5;
-// let down = velocityY * acceleration;
-// let slide = 100;
+let gameState = true;
 
 let packageY = 100;
 let packageX = 100;
 
 let velocityY = 0.2;
 let acceleration = 0.2;
+
+let slide = 10;
+
+let bagX = 100;
+let bagY = 400;
 
 function package(x, y, s) {
   let c = color(180, 30, 0);
@@ -300,60 +300,125 @@ function backdrop() {
   background(190, 210, 230);
 }
 
-// function moving(){
+function bagBack(x, y, s) {
+  // bag in the very back
 
-// }
+  fill(155, 103, 60);
+  stroke(0, 0, 0);
+  strokeWeight(2);
+  strokeJoin(ROUND);
 
-// function packageFalling(){
-//   package(10, velocityY + acceleration);
-// }
+  // bag shape
+  ellipse(x + 50 * s, y - 3 * s, 153 * s, 30 * s);
+
+  beginShape();
+  vertex(x - 25 * s, y);
+  bezierVertex(x + 20 * s, y + 50 * s, x - 75 * s, y + 100 * s, x, y + 150 * s);
+  bezierVertex(
+    x + 50 * s,
+    y + 150 * s,
+    x + 50 * s,
+    y + 150 * s,
+    x + 100 * s,
+    y + 150 * s
+  );
+  bezierVertex(
+    x + 175 * s,
+    y + 100 * s,
+    x + 80 * s,
+    y + 50 * s,
+    x + 125 * s,
+    y
+  );
+
+  endShape();
+
+  // bag opening
+  fill(124, 79, 49);
+  strokeWeight(1);
+
+  ellipse(x + 50 * s, y - 3 * s, 140 * s, 20 * s);
+}
+
+function bagFront(x, y, s) {
+  // following code was learned from ?
+
+  // canvas setup
+  cnv = createGraphics(width, height);
+
+  cnv.fill(155, 103, 60);
+  cnv.stroke(0, 0, 0);
+  cnv.strokeWeight(2);
+  cnv.strokeJoin(ROUND);
+
+  // bag shape
+  cnv.beginShape();
+  cnv.vertex(x - 25 * s, y);
+  cnv.bezierVertex(
+    x + 20 * s,
+    y + 50 * s,
+    x - 75 * s,
+    y + 100 * s,
+    x,
+    y + 150 * s
+  );
+  cnv.bezierVertex(
+    x + 50 * s,
+    y + 150 * s,
+    x + 50 * s,
+    y + 150 * s,
+    x + 100 * s,
+    y + 150 * s
+  );
+  cnv.bezierVertex(
+    x + 175 * s,
+    y + 100 * s,
+    x + 80 * s,
+    y + 50 * s,
+    x + 125 * s,
+    y
+  );
+
+  cnv.endShape();
+
+  // removing opening
+  cnv.strokeWeight();
+  cnv.erase();
+  cnv.ellipse(x + 50 * s, y - 2.5 * s, 140 * s, 20 * s);
+
+  // transparent canvas
+  image(cnv, 0, 0);
+
+  // opening over object
+  noFill();
+  arc(x + 50 * s, y - 2.5 * s, 140 * s, 20 * s, 0, PI);
+}
 
 function draw() {
   backdrop();
-  package(packageX + 100, packageY, 0.3);
+  bagBack(bagX, bagY, 0.7);
+  package(packageX + slide, packageY, 0.3);
+  bagFront(bagX, bagY, 0.7);
 
-  // gravity logic
-  packageY = packageY + velocityY;
-  velocityY = velocityY + acceleration;
+  if (gameState === true) {
+    // gravity logic
+    packageY = packageY + velocityY;
+    velocityY = velocityY + acceleration;
 
-  // decrease the velocity when clicking
-  if (mouseIsPressed) {
-    velocityY = velocityY - 0.7;
+    if (keyIsDown(37)) {
+      slide = slide - acceleration * 15;
+    } else if (keyIsDown(39)) {
+      slide = slide + acceleration * 15;
+    }
+
+    // decrease the velocity pressing up button
+    if (keyIsDown(38)) {
+      velocityY = velocityY - 0.5;
+    }
+
+    if (packageY >= 600) {
+      gameState = false;
+      console.log("die");
+    }
   }
-
-  packageY = packageY + 8;
 }
-
-// function moving() {
-//   if (keyIsDown(39)) {
-//     slide = slide + speed;
-//   } else if (keyIsDown(37)) {
-//     slide = slide - speed;
-//   }
-//   // if (down < 400)
-//   down = down + 8;
-// }
-
-// function draw(){
-//   backdrop();
-//   // package(down, velocityY * acceleration);
-//   package(slide + 100, down, 0.3);
-//   down = down + 2;
-// }
-
-// function moving() {
-//   if (keyIsDown(39)) {
-//     slide = slide + speed;
-//   } else if (keyIsDown(37)) {
-//     slide = slide - speed;
-//   }
-//   // if (down < 400)
-//   down = down + 8;
-// }
-
-// function draw() {
-//   clear();
-//   backdrop();
-//   package(slide + 100, down, 0.3);
-//   moving();
-// }
