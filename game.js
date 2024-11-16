@@ -1,14 +1,21 @@
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(700, 600);
 }
 
-let speed = 5;
-let down = -100;
-let slide = 100;
+// let velocityY = 100;
+// let acceleration = 1;
+
+// // let speed = 5;
+// let down = velocityY * acceleration;
+// let slide = 100;
+
+let packageY = 100;
+let packageX = 100;
+
+let velocityY = 0.2;
+let acceleration = 0.2;
 
 function package(x, y, s) {
-  background(255, 255, 255);
-
   let c = color(180, 30, 0);
   let d = color(150, 0, 0);
 
@@ -289,13 +296,64 @@ function package(x, y, s) {
   ellipse(x, y - 55 * s, 30 * s);
 }
 
-function draw() {
-  package(slide + 100, down, 1);
-
-  if (keyIsDown(39)) {
-    slide = slide + speed;
-  } else if (keyIsDown(37)) {
-    slide = slide - speed;
-  }
-  if (down < 400) down = down + 2;
+function backdrop() {
+  background(190, 210, 230);
 }
+
+// function moving(){
+
+// }
+
+// function packageFalling(){
+//   package(10, velocityY + acceleration);
+// }
+
+function draw() {
+  backdrop();
+  package(packageX + 100, packageY, 0.3);
+
+  // gravity logic
+  packageY = packageY + velocityY;
+  velocityY = velocityY + acceleration;
+
+  // decrease the velocity when clicking
+  if (mouseIsPressed) {
+    velocityY = velocityY - 0.7;
+  }
+
+  packageY = packageY + 8;
+}
+
+// function moving() {
+//   if (keyIsDown(39)) {
+//     slide = slide + speed;
+//   } else if (keyIsDown(37)) {
+//     slide = slide - speed;
+//   }
+//   // if (down < 400)
+//   down = down + 8;
+// }
+
+// function draw(){
+//   backdrop();
+//   // package(down, velocityY * acceleration);
+//   package(slide + 100, down, 0.3);
+//   down = down + 2;
+// }
+
+// function moving() {
+//   if (keyIsDown(39)) {
+//     slide = slide + speed;
+//   } else if (keyIsDown(37)) {
+//     slide = slide - speed;
+//   }
+//   // if (down < 400)
+//   down = down + 8;
+// }
+
+// function draw() {
+//   clear();
+//   backdrop();
+//   package(slide + 100, down, 0.3);
+//   moving();
+// }
