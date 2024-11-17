@@ -11,10 +11,10 @@ let acceleration = 0.2;
 let slide = 10;
 
 let bagX = random(width + -50);
-let bagY = 370;
+let bagY = 570;
 
 function setup() {
-  createCanvas(600, 500);
+  createCanvas(600, 700);
 }
 
 function package(x, y, s) {
@@ -352,8 +352,8 @@ function backdrop() {
 
   push();
   fill(0, 50, 30, 250);
-  tree(0, -40, 2);
-  tree(width, -40, 2);
+  tree(-30, -40, 2.8);
+  tree(width - 60, -40, 2.5);
   pop();
 }
 
@@ -530,11 +530,11 @@ function startScreen() {
   push();
   noStroke();
   fill(139, 0, 0);
-  rect(200, 340, 200, 75, 10);
+  rect(200, 515, 200, 75, 10);
   textAlign(CENTER);
   textSize(30);
   fill(255);
-  text("Start game", 300, 385);
+  text("Start game", 300, 563);
   pop();
 }
 
@@ -563,24 +563,65 @@ function gameScreen() {
     }
 
     if (
-      packageY > 700 &&
+      packageY > 900 &&
       packageX + slide > bagX &&
       packageX + slide < bagX + 75
     ) {
       gameState = false;
+      resultScreenWin();
       console.log(" YOU WIN!");
-    } else if (packageY > 700) {
+    } else if (packageY > 900) {
       gameState = false;
+      resultScreenLose();
       console.log("YOU LOOSE!");
     }
   }
 }
 
-function resultScreen() {
+function resultScreenWin() {
   backdrop();
-  fill(0, 0, 0, 100);
-  rect(0, 0, width, height);
-  state = "result";
+  fill(0, 0, 0, 150);
+  rect(-10, -10, width + 10, height + 10);
+  state = "resultWin";
+  stroke(255);
+  fill(139, 0, 0);
+  textAlign(CENTER);
+  textSize(50);
+  text(" YOU WON! ", width / 2, 250);
+
+  push();
+  noStroke();
+  fill(139, 0, 0);
+  rect(200, 515, 200, 75, 10);
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text("Play again!", 300, 563);
+  pop();
+}
+
+function resultScreenLose() {
+  backdrop();
+  noStroke();
+  fill(0, 0, 0, 150);
+  rect(0, 0, width + 10, height + 10);
+  state = "resultLose";
+  // noStroke();
+  stroke(255);
+  fill(139, 0, 0);
+  textAlign(CENTER);
+  textSize(50);
+  text(" GAME OVER ", width / 2, 250);
+
+  push();
+  noStroke();
+  fill(139, 0, 0);
+  rect(200, 515, 200, 75, 10);
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text("Try again!", 300, 563);
+  pop();
 }
 
 function draw() {
@@ -588,8 +629,10 @@ function draw() {
     startScreen();
   } else if (state === "game") {
     gameScreen();
-  } else if (state === "result") {
-    resultScreen();
+  } else if (state === "resultWin") {
+    resultScreenWin();
+  } else if (state === "resultLose") {
+    resultScreenLose();
   }
 }
 
@@ -598,8 +641,8 @@ function mouseClicked() {
     state === "start" &&
     mouseX > 200 &&
     mouseX < 400 &&
-    mouseY > 340 &&
-    mouseY < 415
+    mouseY > 520 &&
+    mouseY < 590
   ) {
     state = "game";
   } else if (state === "game") {
