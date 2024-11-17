@@ -1,6 +1,6 @@
 let state = "start";
 
-// let gameState = true;
+let gameState = true;
 
 let packageY = 100;
 let packageX = 100;
@@ -10,7 +10,7 @@ let acceleration = 0.2;
 
 let slide = 10;
 
-let bagX = random(width);
+let bagX = random(width + -10);
 let bagY = 370;
 
 function setup() {
@@ -474,30 +474,34 @@ function gameScreen() {
   package(packageX + slide, packageY, 0.5);
   bagFront(bagX, bagY, 1);
 
-  // if (gameState === true) {
-  // gravity logic
-  packageY = packageY + velocityY;
-  velocityY = velocityY + acceleration;
+  if (gameState === true) {
+    // gravity logic
+    packageY = packageY + velocityY;
+    velocityY = velocityY + acceleration;
 
-  if (keyIsDown(37)) {
-    slide = slide - acceleration * 15;
-  } else if (keyIsDown(39)) {
-    slide = slide + acceleration * 15;
+    if (keyIsDown(37)) {
+      slide = slide - acceleration * 15;
+    } else if (keyIsDown(39)) {
+      slide = slide + acceleration * 15;
+    }
+
+    // decrease the velocity pressing up button
+    if (keyIsDown(38)) {
+      velocityY = velocityY - 0.5;
+    }
+
+    if (
+      packageY > 700 &&
+      packageX + slide > bagX &&
+      packageX + slide < bagX + 75
+    ) {
+      gameState = false;
+      console.log(" YOU WIN!");
+    } else if (packageY > 700) {
+      gameState = false;
+      console.log("YOU LOOSE!");
+    }
   }
-
-  // decrease the velocity pressing up button
-  if (keyIsDown(38)) {
-    velocityY = velocityY - 0.5;
-  }
-
-  if (
-    packageY >= 700 &&
-    packageX + slide >= bagX &&
-    packageX + slide <= bagX + 75
-  ) {
-    // gameState = true;
-    console.log(" YOU WIN!");
-  } else if (packageY >= 700) console.log("YOU LOOSE!");
 }
 
 function resultScreen() {
