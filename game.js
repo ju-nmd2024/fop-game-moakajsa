@@ -1,3 +1,5 @@
+let state = "start";
+
 let gameState = true;
 
 let packageY = 100;
@@ -449,7 +451,24 @@ function bagFront(x, y, s) {
   arc(x + 50 * s, y - 2.5 * s, 140 * s, 20 * s, 0, PI);
 }
 
-function draw() {
+function startScreen() {
+  backdrop();
+  fill(0, 0, 0, 100);
+  rect(0, 0, width, height);
+  push();
+  noStroke();
+  fill(139, 0, 0);
+  rect(200, 340, 200, 75, 10);
+  textAlign(CENTER);
+  textSize(30);
+  fill(255);
+  text("Start game", 300, 385);
+  pop();
+}
+
+function gameScreen() {
+  background(0, 255, 0);
+  text("game", 100, 100);
   backdrop(100, 100);
   bagBack(bagX, bagY, 1);
   package(packageX + slide, packageY, 0.5);
@@ -474,5 +493,38 @@ function draw() {
     if (packageY >= 700) {
       gameState = false;
     }
+  }
+}
+
+function resultScreen() {
+  backdrop();
+  fill(0, 0, 0, 100);
+  rect(0, 0, width, height);
+  state = "result";
+}
+
+function draw() {
+  if (state === "start") {
+    startScreen();
+  } else if (state === "game") {
+    gameScreen();
+  } else if (state === "result") {
+    resultScreen();
+  }
+}
+
+function mouseClicked() {
+  if (
+    state === "start" &&
+    mouseX > 200 &&
+    mouseX < 400 &&
+    mouseY > 340 &&
+    mouseY < 415
+  ) {
+    state = "game";
+  } else if (state === "game") {
+    state = "result";
+  } else if (state === "result") {
+    state = "game";
   }
 }
