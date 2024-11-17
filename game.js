@@ -10,7 +10,7 @@ let acceleration = 0.2;
 
 let slide = 10;
 
-let bagX = random(width + -10);
+let bagX = random(width + -50);
 let bagY = 370;
 
 function setup() {
@@ -357,6 +357,75 @@ function backdrop() {
   pop();
 }
 
+function snowflake(x, y, s) {
+  stroke(255);
+  strokeWeight(10 * s);
+
+  // right middle up
+
+  push();
+  translate(x, y);
+  line(0, 150 * s, 0, -150 * s);
+  line(0, -100 * s, 40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  line(0, -50 * s, -40 * s, -90 * s);
+  line(0, -50 * s, 40 * s, -90 * s);
+  pop();
+
+  // pattern outside
+  push();
+  translate(x, y);
+  rotate(0.9);
+  line(0, -100 * s, 40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  rotate(0.7);
+  line(0, -100 * s, +40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  rotate(0.7);
+  line(0, -100 * s, +40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  rotate(0.85);
+  line(0, -100 * s, +40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  rotate(0.85);
+  line(0, -100 * s, +40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  rotate(0.7);
+  line(0, -100 * s, +40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  rotate(0.7);
+  line(0, -100 * s, +40 * s, -140 * s);
+  line(0, -100 * s, -40 * s, -140 * s);
+  pop();
+
+  // pattern inside every other
+  push();
+  translate(x, y);
+  rotate(1.6);
+  line(0, -50 * s, +40 * s, -90 * s);
+  line(0, -50 * s, -40 * s, -90 * s);
+  rotate(1.55);
+  line(0, -50 * s, +40 * s, -90 * s);
+  line(0, -50 * s, -40 * s, -90 * s);
+  rotate(1.55);
+  line(0, -50 * s, +40 * s, -90 * s);
+  line(0, -50 * s, -40 * s, -90 * s);
+
+  pop();
+
+  // base line structure
+  push();
+  translate(x, y);
+  rotate(0.7);
+  line(-150 * s, 0, 150 * s, 0);
+  rotate(-0.7);
+  line(-150 * s, 0, 150 * s, 0);
+  rotate(-0.7);
+  line(-150 * s, 0, 150 * s, 0);
+
+  pop();
+}
+
 function bagBack(x, y, s) {
   // bag in the very back
 
@@ -449,6 +518,9 @@ function bagFront(x, y, s) {
   // opening over object
   noFill();
   arc(x + 50 * s, y - 2.5 * s, 140 * s, 20 * s, 0, PI);
+
+  // decoration
+  snowflake(x + 50, y + 70, 0.3);
 }
 
 function startScreen() {
