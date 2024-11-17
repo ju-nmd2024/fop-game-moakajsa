@@ -1,7 +1,3 @@
-function setup() {
-  createCanvas(600, 500);
-}
-
 let gameState = true;
 
 let packageY = 100;
@@ -13,7 +9,11 @@ let acceleration = 0.2;
 let slide = 10;
 
 let bagX = 100;
-let bagY = 400;
+let bagY = 370;
+
+function setup() {
+  createCanvas(600, 500);
+}
 
 function package(x, y, s) {
   let c = color(180, 30, 0);
@@ -296,8 +296,63 @@ function package(x, y, s) {
   ellipse(x, y - 55 * s, 30 * s);
 }
 
+function tree(x, y, s) {
+  push();
+  fill(124, 79, 49);
+  noStroke();
+  rect(x - 15 * s, y + 230 * s, 30 * s, 40 * s);
+  pop();
+
+  beginShape();
+
+  noStroke();
+  vertex(x - 100 * s, y + 250 * s);
+  vertex(x + 100 * s, y + 250 * s);
+  vertex(x + 50 * s, y + 175 * s);
+  vertex(x + 75 * s, y + 175 * s);
+  vertex(x + 25 * s, y + 100 * s);
+  vertex(x + 50 * s, y + 100 * s);
+  vertex(x, y + 20 * s);
+  vertex(x - 50 * s, y + 100 * s);
+  vertex(x - 25 * s, y + 100 * s);
+  vertex(x - 75 * s, y + 175 * s);
+  vertex(x - 50 * s, y + 175 * s);
+  vertex(x - 100 * s, y + 250 * s);
+
+  endShape();
+}
+
 function backdrop() {
   background(190, 210, 230);
+
+  push();
+  fill(0, 50, 0, 250);
+  tree(300, -120, 1.8);
+  pop();
+  push();
+  fill(0, 50, 30, 250);
+  tree(160, -140, 1.6);
+  tree(450, -140, 1.7);
+
+  pop();
+  push();
+  fill(0, 70, 30, 250);
+  tree(50, -140, 1.5);
+  tree(560, -90, 1.4);
+  tree(200, 100, 1);
+
+  pop();
+  push();
+  fill(0, 50, 0, 250);
+  tree(150, 10, 1.5);
+  tree(450, 20, 1.6);
+  pop();
+
+  push();
+  fill(0, 50, 30, 250);
+  tree(0, -40, 2);
+  tree(width, -40, 2);
+  pop();
 }
 
 function bagBack(x, y, s) {
@@ -395,10 +450,10 @@ function bagFront(x, y, s) {
 }
 
 function draw() {
-  backdrop();
-  bagBack(bagX, bagY, 0.7);
-  package(packageX + slide, packageY, 0.3);
-  bagFront(bagX, bagY, 0.7);
+  backdrop(100, 100);
+  bagBack(bagX, bagY, 1);
+  package(packageX + slide, packageY, 0.5);
+  bagFront(bagX, bagY, 1);
 
   if (gameState === true) {
     // gravity logic
@@ -416,9 +471,8 @@ function draw() {
       velocityY = velocityY - 0.5;
     }
 
-    if (packageY >= 600) {
+    if (packageY >= 700) {
       gameState = false;
-      console.log("die");
     }
   }
 }
