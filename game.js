@@ -2,7 +2,7 @@ let state = "start";
 
 let gameState = true;
 
-let packageY = 100;
+let packageY = -100;
 let packageX = 100;
 
 let velocityY = 0.2;
@@ -539,8 +539,8 @@ function startScreen() {
 }
 
 function gameScreen() {
+  state = "game";
   background(0, 255, 0);
-  text("game", 100, 100);
   backdrop(100, 100);
   bagBack(bagX, bagY, 1);
   package(packageX + slide, packageY, 0.5);
@@ -624,16 +624,13 @@ function resultScreenLose() {
   pop();
 }
 
-function draw() {
-  if (state === "start") {
-    startScreen();
-  } else if (state === "game") {
-    gameScreen();
-  } else if (state === "resultWin") {
-    resultScreenWin();
-  } else if (state === "resultLose") {
-    resultScreenLose();
-  }
+function resetGame() {
+  packageY = -100;
+  packageX = 100;
+
+  velocityY = 0.2;
+  acceleration = 0.2;
+  gameState = true;
 }
 
 function mouseClicked() {
@@ -647,7 +644,45 @@ function mouseClicked() {
     state = "game";
   } else if (state === "game") {
     state = "result";
-  } else if (state === "result") {
+  } else if (
+    state === "resultWin" &&
+    mouseX > 200 &&
+    mouseX < 400 &&
+    mouseY > 520 &&
+    mouseY < 590
+  ) {
+    resetGame();
     state = "game";
+  } else if (
+    state === "resultLose" &&
+    mouseX > 200 &&
+    mouseX < 400 &&
+    mouseY > 520 &&
+    mouseY < 590
+  ) {
+    resetGame();
+    state = "game";
+  }
+}
+
+function draw() {
+  if (state === "start") {
+    startScreen();
+  } else if (state === "game") {
+    gameScreen();
+  } else if (state === "resultWin") {
+    resultScreenWin();
+    // packageY = -100;
+    // packageX = 100;
+
+    // velocityY = 0.2;
+    // acceleration = 0.2;
+  } else if (state === "resultLose") {
+    resultScreenLose();
+    // packageY = -100;
+    // packageX = 100;
+
+    // velocityY = 0.2;
+    // acceleration = 0.2;
   }
 }
