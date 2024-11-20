@@ -15,7 +15,7 @@ let bagY = 570;
 
 function setup() {
   createCanvas(600, 700);
-  bagX = random(width + -50);
+  bagX = random(100, 500);
   packageX = random(100, 500);
 }
 
@@ -529,14 +529,25 @@ function startScreen() {
   fill(0, 0, 0, 150);
 
   backdrop();
+
+  push();
+  stroke(255);
+  // strokeWeight(3);
+  fill(139, 0, 0);
+  textAlign(CENTER);
+  textSize(40);
+  line(155, 155, 450, 155);
+  text(" Santa's package ", 300, 150);
+
   push();
   stroke(255);
   // strokeWeight(3);
   fill(255, 255, 255);
   textAlign(CENTER);
-  textSize(40);
+  textSize(30);
+  stroke(0, 0, 0);
+  strokeWeight(2);
   text(" Land the package safely ", 300, 250);
-  // text("  ", 300, 250);
 
   push();
   stroke(255);
@@ -613,7 +624,7 @@ function resultScreenWin() {
   backdrop();
   noStroke();
   fill(0, 0, 0, 150);
-  rect(0, 0, width + 10, height + 10);
+  rect(0, 0, 700, 800);
   state = "resultWin";
   // noStroke();
   stroke(255);
@@ -637,7 +648,7 @@ function resultScreenLose() {
   backdrop();
   noStroke();
   fill(0, 0, 0, 150);
-  rect(0, 0, width + 10, height + 10);
+  rect(0, 0, 700, 800);
   state = "resultLose";
   // noStroke();
   stroke(255);
