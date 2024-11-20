@@ -3,18 +3,20 @@ let state = "start";
 let gameState = true;
 
 let packageY = -100;
-let packageX = 100;
+let packageX;
 
-let velocityY = 0.2;
-let acceleration = 0.2;
+let velocityY = 0.4;
+let acceleration = 0.4;
 
 let slide = 10;
 
-let bagX = random(width + -50);
+let bagX;
 let bagY = 570;
 
 function setup() {
   createCanvas(600, 700);
+  bagX = random(width + -50);
+  packageX = random(100, 500);
 }
 
 function package(x, y, s) {
@@ -524,9 +526,37 @@ function bagFront(x, y, s) {
 }
 
 function startScreen() {
+  fill(0, 0, 0, 150);
+
   backdrop();
+  push();
+  stroke(255);
+  // strokeWeight(3);
+  fill(255, 255, 255);
+  textAlign(CENTER);
+  textSize(40);
+  text(" Land the package safely ", 300, 250);
+  // text("  ", 300, 250);
+
+  push();
+  stroke(255);
+  // strokeWeight(3);
+  fill(255, 255, 255);
+  textAlign(CENTER);
+  textSize(40);
+  text(" ↑ ", 300, 320);
+  text(" ← ", 260, 350);
+  text(" → ", 340, 350);
+
+  textSize(20);
+  stroke(0, 0, 0);
+  strokeWeight(2);
+  text(" use the arrow keys to slow down the movement", 300, 400);
+  text(" and make it land in santas bag ", 300, 430);
+
   fill(0, 0, 0, 100);
   rect(0, 0, width, height);
+
   push();
   noStroke();
   fill(139, 0, 0);
@@ -559,18 +589,19 @@ function gameScreen() {
 
     // decrease the velocity pressing up button
     if (keyIsDown(38)) {
-      velocityY = velocityY - 0.5;
+      velocityY = velocityY - 0.7;
     }
 
     if (
-      packageY > 900 &&
+      packageY > 800 &&
       packageX + slide > bagX &&
-      packageX + slide < bagX + 75
+      packageX + slide < bagX + 75 &&
+      velocityY < 7
     ) {
       gameState = false;
       resultScreenWin();
       console.log(" YOU WIN!");
-    } else if (packageY > 900) {
+    } else if (packageY > 800 && velocityY > 9) {
       gameState = false;
       resultScreenLose();
       console.log("YOU LOOSE!");
@@ -580,14 +611,16 @@ function gameScreen() {
 
 function resultScreenWin() {
   backdrop();
+  noStroke();
   fill(0, 0, 0, 150);
-  rect(-10, -10, width + 10, height + 10);
+  rect(0, 0, width + 10, height + 10);
   state = "resultWin";
+  // noStroke();
   stroke(255);
   fill(139, 0, 0);
   textAlign(CENTER);
   textSize(50);
-  text(" YOU WON! ", width / 2, 250);
+  text(" YOU WIN! ", 300, 250);
 
   push();
   noStroke();
@@ -596,7 +629,7 @@ function resultScreenWin() {
   textAlign(CENTER);
   textSize(30);
   fill(255);
-  text("Play again!", 300, 563);
+  text("play again!", 300, 563);
   pop();
 }
 
@@ -611,7 +644,7 @@ function resultScreenLose() {
   fill(139, 0, 0);
   textAlign(CENTER);
   textSize(50);
-  text(" GAME OVER ", width / 2, 250);
+  text(" GAME OVER ", 300, 250);
 
   push();
   noStroke();
@@ -626,10 +659,11 @@ function resultScreenLose() {
 
 function resetGame() {
   packageY = -100;
-  packageX = 100;
+  packageX = random(100, 500);
+  bagX = random(100, 500);
 
-  velocityY = 0.2;
-  acceleration = 0.2;
+  velocityY = 0.3;
+  acceleration = 0.3;
   gameState = true;
 }
 
@@ -672,17 +706,7 @@ function draw() {
     gameScreen();
   } else if (state === "resultWin") {
     resultScreenWin();
-    // packageY = -100;
-    // packageX = 100;
-
-    // velocityY = 0.2;
-    // acceleration = 0.2;
   } else if (state === "resultLose") {
     resultScreenLose();
-    // packageY = -100;
-    // packageX = 100;
-
-    // velocityY = 0.2;
-    // acceleration = 0.2;
   }
 }
